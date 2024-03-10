@@ -1,0 +1,12 @@
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/helloworld_cli.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/helloworld.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/test_version.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/package.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/package_source.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/test.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/edit_cache.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/rebuild_cache.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/list_install_components.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/install.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/install/local.dir
+/home/dan/otus/cpp_course/cpp/dz_1/build/CMakeFiles/install/strip.dir
