@@ -7,7 +7,7 @@ on:
       - feature/github_actions
 
 jobs:
-  dz_1:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
