@@ -20,9 +20,6 @@ Boost_DIR:PATH=/usr/lib64/cmake/Boost-1.81.0
 //Path to a file.
 Boost_INCLUDE_DIR:PATH=/usr/include
 
-//Boost unit_test_framework library (debug)
-Boost_UNIT_TEST_FRAMEWORK_LIBRARY_DEBUG:FILEPATH=Boost_UNIT_TEST_FRAMEWORK_LIBRARY_DEBUG-NOTFOUND
-
 Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE:STRING=/usr/lib64/libboost_unit_test_framework.so.1.81.0
 
 //Path to a program.
@@ -284,10 +281,6 @@ helloworld_SOURCE_DIR:STATIC=/home/dan/otus/cpp_course/cpp/dz_1
 
 //ADVANCED property for variable: Boost_DIR
 Boost_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_UNIT_TEST_FRAMEWORK_LIBRARY_DEBUG
-Boost_UNIT_TEST_FRAMEWORK_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE
-Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
