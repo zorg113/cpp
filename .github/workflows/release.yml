@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./dz_1  
+        working-directory: ./dz_2  
     steps:
     - uses: actions/checkout@v2
       with:
