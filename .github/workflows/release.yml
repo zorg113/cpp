@@ -8,7 +8,7 @@ on:
       - feature/github_actions
 
 jobs:
-  dz_1:
+  dz_2:
     runs-on: ubuntu-latest
     defaults:
       run:
