@@ -2,15 +2,18 @@
 
 #include "lib.h"
 
+#include <array>
 #include <string>
 #include <vector>
 
 using strings = std::vector<std::string>;
 using string = std::string;
+using ip = std::array<int, 4>;
 using ssize_type = std::string::size_type;
 
 strings split(const string &str, char delim);
-void lex_sort(std::vector<strings> &ip_pool);
+
+void lex_sort(std::vector<ip> &ip_pool);
 
 SCENARIO("ip filter") {
   GIVEN("input string") {
@@ -22,10 +25,8 @@ SCENARIO("ip filter") {
     }
   }
   GIVEN("pool ip") {
-    std::vector<strings> pool_ip = {{"192", "168", "1", "1"},
-                                    {"192", "168", "1", "2"}};
-    std::vector<strings> ok = {{"192", "168", "1", "2"},
-                               {"192", "168", "1", "1"}};
+    std::vector<ip> pool_ip = {{192, 168, 1, 1}, {192, 168, 1, 2}};
+    std::vector<ip> ok = {{192, 168, 1, 2}, {192, 168, 1, 1}};
     WHEN("sort pool") {
       lex_sort(pool_ip);
 

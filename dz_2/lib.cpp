@@ -3,13 +3,16 @@
 #include "version.h"
 
 #include <algorithm>
+#include <array>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 using strings = std::vector<std::string>;
+using ip = std::array<int, 4>;
 using string = std::string;
 using ssize_type = std::string::size_type;
 
@@ -43,11 +46,26 @@ strings split(const string &str, char delim) {
 }
 
 /**
+ * @brief  преобразование строкового представления ipv4
+ *         в array<int,4>
+ * @param str входная строка
+ * @param delim  разделитель
+ * @return ip (array<int,4)
+ */
+ip string_to_ip(const string &str, char delim) {
+  ip r;
+  auto sbyte = split(str, delim);
+  for (size_t i = 0; i < 4; ++i) {
+    r[i] = std::stoi(sbyte[i]);
+  }
+  return r;
+}
+/**
  * @brief  печать адреса
  *
  * @param addr ip адрес
  */
-void print_adress(const strings &addr) {
+void print_adress(const ip &addr) {
   bool flag = false;
   for (auto &s : addr) {
     if (flag)
@@ -64,7 +82,7 @@ void print_adress(const strings &addr) {
  *
  * @param vs входной массив
  */
-void print_pool(const std::vector<strings> &vs) {
+void print_pool(const std::vector<ip> &vs) {
   for (auto &a : vs) {
     print_adress(a);
   }
@@ -74,22 +92,15 @@ void print_pool(const std::vector<strings> &vs) {
  *
  * @param ip_pool  пул адресов
  */
-void lex_sort(std::vector<strings> &ip_pool) {
+void lex_sort(std::vector<ip> &ip_pool) {
   std::sort(ip_pool.begin(), ip_pool.end(),
             [](const auto &ip1, const auto ip2) {
-              if (std::stoi(ip1[0]) < std::stoi(ip2[0]))
-                return false;
-              if (std::stoi(ip1[0]) == std::stoi(ip2[0])) {
-                if (std::stoi(ip1[1]) < std::stoi(ip2[1]))
+              const auto size = std::tuple_size<ip>{};
+              for (size_t i = 0; i < size; ++i) {
+                if (ip1[i] < ip2[i])
                   return false;
-                if (std::stoi(ip1[1]) == std::stoi(ip2[1])) {
-                  if (std::stoi(ip1[2]) < std::stoi(ip2[2]))
-                    return false;
-                  if (std::stoi(ip1[2]) == std::stoi(ip2[2])) {
-                    if (std::stoi(ip1[3]) < std::stoi(ip2[3]))
-                      return false;
-                  }
-                }
+                else if (ip1[i] > ip2[i])
+                  return true;
               }
               return true;
             });
@@ -102,8 +113,7 @@ void lex_sort(std::vector<strings> &ip_pool) {
  * @param value значение
  * @param nb номер байта num_byte
  */
-void print_byte_eq(const std::vector<strings> &vs, const std::string value,
-                   num_byte nb) {
+void print_byte_eq(const std::vector<ip> &vs, const int value, num_byte nb) {
   for (auto &a : vs) {
     if (nb != any_byte) {
       if (a[nb] == value) {
@@ -125,8 +135,8 @@ void print_byte_eq(const std::vector<strings> &vs, const std::string value,
  * @param first  значение первого байта
  * @param second  значение второго байта
  */
-void print_first_second_eq(const std::vector<strings> &vs,
-                           const std::string first, const std::string second) {
+void print_first_second_eq(const std::vector<ip> &vs, const int first,
+                           const int second) {
   for (auto &a : vs) {
     if (a[0] == first && a[1] == second) {
       print_adress(a);
@@ -141,18 +151,18 @@ void print_first_second_eq(const std::vector<strings> &vs,
 void parse_ip() {
   std::ifstream in("./../ip_filter.tsv");
   std::cin.rdbuf(in.rdbuf());
-  std::vector<strings> ip_pool;
+  std::vector<ip> ip_pool;
   for (string line; std::getline(std::cin, line);) {
     strings strs = split(line, '\t');
-    ip_pool.push_back(split(strs.at(0), '.'));
+    ip_pool.push_back(string_to_ip(strs.at(0), '.'));
   }
   // сортировка
   lex_sort(ip_pool);
   print_pool(ip_pool);
   // первый байт равен 1
-  print_byte_eq(ip_pool, "1", first);
+  print_byte_eq(ip_pool, 1, first);
   // первый равен 46 второй 70
-  print_first_second_eq(ip_pool, "46", "70");
+  print_first_second_eq(ip_pool, 46, 70);
   // любой байт равне 46
-  print_byte_eq(ip_pool, "46", any_byte);
+  print_byte_eq(ip_pool, 46, any_byte);
 }
