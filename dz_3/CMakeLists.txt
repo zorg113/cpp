@@ -3,26 +3,26 @@ cmake_minimum_required(VERSION 3.12)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(filter_ip VERSION ${PROJECT_VESRION})
+project(allocate VERSION ${PROJECT_VESRION})
 
 option(WITH_CATCH2_TEST "Whether to build Catch2 test" ON)
 
 configure_file(version.h.in version.h)
 
-add_executable(filter_ip_cli main.cpp)
-add_library(filter_ip lib.cpp)
+add_executable(allocate_cli main.cpp)
+add_library(allocate lib.cpp)
 
-set_target_properties(filter_ip_cli filter_ip PROPERTIES
-    CXX_STANDARD 14
+set_target_properties(allocate_cli allocate PROPERTIES
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
-target_include_directories(filter_ip
+target_include_directories(allocate
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
-target_link_libraries(filter_ip_cli PRIVATE
-    filter_ip
+target_link_libraries(allocate_cli PRIVATE
+    allocate
 )
 
 if(WITH_CATCH2_TEST)
@@ -33,24 +33,24 @@ if(WITH_CATCH2_TEST)
       GIT_TAG v3.4.0
     )
     FetchContent_MakeAvailable(Catch2)
-    add_executable(test_filter test_filter_ip.cpp)
+    add_executable(test_alloc test_allocate.cpp)
 
-    set_target_properties(test_filter PROPERTIES
-        CXX_STANDARD 14
+    set_target_properties(test_alloc PROPERTIES
+        CXX_STANDARD 17
         CXX_STANDARD_REQUIRED ON
     )
 
-    target_link_libraries(test_filter
-        PRIVATE filter_ip
+    target_link_libraries(test_alloc
+        PRIVATE allocate
         PRIVATE Catch2::Catch2WithMain
     )
 endif()
 
 if (MSVC)
-    target_compile_options(filter_ip_cli PRIVATE
+    target_compile_options(allocate_cli PRIVATE
         /W4
     )
-    target_compile_options(filter_ip PRIVATE
+    target_compile_options(allocate PRIVATE
         /W4
     )
   if(WITH_CATCH2_TEST)
@@ -59,20 +59,15 @@ if (MSVC)
         )
     endif()
 else ()
-    target_compile_options(filter_ip_cli PRIVATE
+    target_compile_options(allocate_cli PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    target_compile_options(filter_ip PRIVATE
+    target_compile_options(allocate PRIVATE
         -Wall -Wextra -pedantic -Werror
-    )
-    if(WITH_BOOST_TEST)
-        target_compile_options(test_version PRIVATE
-            -Wall -Wextra -pedantic -Werror
-        )
-    endif()
+    )     
 endif()
 
-install(TARGETS filter_ip_cli RUNTIME DESTINATION bin)
+install(TARGETS allocate_cli RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 #set(CPACK_GENERATOR RPM)
@@ -84,5 +79,5 @@ include(CPack)
 
 if(WITH_CATCH2_TEST)
     enable_testing()
-    add_test(test test_filter)
+    add_test(test test_alloc)
 endif()
