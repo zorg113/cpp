@@ -1,6 +1,10 @@
 #pragma once
 #include <cstddef>
 #include <iterator>
+/**
+ * @brief итератор для вектора библиотеки best
+ *
+ */
 namespace best {
 template <typename T> class Iterator;
 }
@@ -13,11 +17,11 @@ template <typename T> struct std::iterator_traits<best::Iterator<T>> {
   using iterator_category = std::random_access_iterator_tag;
 };
 
-namespace beast {
+namespace best {
 
 template <typename T> class Iterator {
 public:
-  using traits = typename std::iterator_traits<beast::Iterator<T>>;
+  using traits = typename std::iterator_traits<best::Iterator<T>>;
 
   using difference_type = typename traits::difference_type;
   using value_type = typename traits::value_type;
@@ -30,7 +34,7 @@ public:
   Iterator(Iterator &&other) : ptr(std::move(other.ptr)) {}
   Iterator(const typename std::iterator_traits<Iterator<T>>::pointer &ptr)
       : ptr(ptr) {}
-  virtual ~Iterator() = default;
+  virtual ~Iterator(){};
 
   Iterator &operator=(const Iterator &);
   Iterator &operator++();
@@ -155,4 +159,4 @@ template <typename T> bool Iterator<T>::operator<(const Iterator &other) const {
 template <typename T> bool Iterator<T>::operator>(const Iterator &other) const {
   return ptr > other.ptr;
 }
-} // namespace beast
+} // namespace best

@@ -1,67 +1,6 @@
-#pragma once
-#include "best_iterator.h"
-#include <memory>
-#include <utility>
-/**
- * @brief чудесный вектор
- *
- */
+#include "best_vector.h"
+
 namespace best {
-template <typename T, class Allocator = std::allocator<T>> class vector {
-public:
-  using value_type = T;
-  using allocator_type = Allocator;
-  using pointer = typename std::allocator_traits<Allocator>::pointer;
-  using const_pointer =
-      typename std::allocator_traits<Allocator>::const_pointer;
-  using reference = value_type &;
-  using const_reference = const value_type &;
-  using size_type = size_t;
-  using iterator = best::Iterator<value_type>;
-  using const_iterator = best::Iterator<const value_type>;
-
-  constexpr vector() noexcept(noexcept(Allocator()))
-      : m_allocator(Allocator()) {}
-
-  constexpr vector(const vector &x);
-  constexpr vector(vector &&) noexcept;
-  virtual ~vector();
-  constexpr vector &operator=(const vector &x);
-
-  constexpr void assign(size_type n, const_reference value);
-  iterator begin() noexcept;
-  iterator end() noexcept;
-
-  const_iterator cbegin() const noexcept;
-  const_iterator cend() const noexcept;
-
-  constexpr size_type size() const noexcept;
-  constexpr size_type max_size() const noexcept;
-  constexpr size_type capacity() const noexcept;
-  constexpr bool empty() const noexcept;
-  constexpr reference operator[](size_type n);
-  constexpr const_reference operator[](size_type n) const;
-  constexpr const_reference at(size_type n) const;
-  constexpr reference at(size_type n);
-  constexpr pointer data() noexcept;
-  constexpr const_pointer data() const noexcept;
-  constexpr void push_back(const_reference x);
-  constexpr void pop_back();
-  constexpr void clear() noexcept;
-  constexpr void swap(vector<T, Allocator> &other);
-
-private:
-  float m_growthFactor = 1.5f;
-  Allocator m_allocator;
-  pointer m_begin = nullptr;
-  pointer m_last = nullptr;
-  pointer m_end = nullptr;
-
-  void reallocate(size_type n);
-  void initialize(iterator, iterator);
-  void destroy(iterator first, iterator last);
-};
-//------------------------------------
 template <typename T, typename A>
 constexpr vector<T, A>::vector(const vector &other) {
   reallocate(other, size());
@@ -89,6 +28,15 @@ constexpr vector<T, A> &vector<T, A>::operator=(const vector<T, A> &other) {
   m_last = m_begin + other.size();
   return *this;
 }
+
+// template <typename T, typename A>
+// constexpr vector<T, A> &vector<T, A>::operator=(vector<T, A> &&other) {
+//   if (this == &other)
+//     return *this;
+//   clear();
+//   swap(other);
+//   return *this;
+// }
 
 template <typename T, typename A>
 typename vector<T, A>::iterator vector<T, A>::begin() noexcept {
@@ -202,6 +150,7 @@ void vector<T, A>::reallocate(size_type newCapacity) {
   pointer newBegin = m_allocator.allocate(newCapacity);
   if (newBegin == m_begin)
     return;
+
   if (m_begin) {
     try {
       std::move(m_begin, m_begin + std::min(size(), newCapacity), newBegin);
@@ -229,4 +178,5 @@ void vector<T, A>::destroy(iterator first, iterator last) {
     m_allocator.destroy(&*it);
   }
 }
+
 }; // namespace best
