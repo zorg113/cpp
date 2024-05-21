@@ -1,0 +1,7 @@
+#include <catch2/catch_test_macros.hpp>
+
+#include "lib.h"
+
+#include <array>
+#include <string>
+#include <vector>
