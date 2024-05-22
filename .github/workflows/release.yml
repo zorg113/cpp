@@ -126,11 +126,11 @@ jobs:
         asset_name: print_ip-0.0.${{ github.run_number }}-Linux.deb
         asset_content_type: application/vnd.debian.binary-package
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1 
+      uses: peaceiris/actions-gh-pages@v3
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dz_4/doc/html/
           enable_jekyll: false
           allow_empty_commit: false
           force_orphan: true
-          publish_branch: gh-pages
+          publish_branch: main
