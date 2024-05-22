@@ -104,6 +104,7 @@ jobs:
     - run: cmake --build .
     - run: cmake --build . --target test
     - run: cmake --build . --target package
+    - run: cmake --build . --target doc
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -124,3 +125,12 @@ jobs:
         asset_path: ./dz_4/print_ip-0.0.${{ github.run_number }}-Linux.deb
         asset_name: print_ip-0.0.${{ github.run_number }}-Linux.deb
         asset_content_type: application/vnd.debian.binary-package
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@3.7.1 
+      with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc/html/
+          enable_jekyll: false
+          allow_empty_commit: false
+          force_orphan: true
+          publish_branch: gh-pages
