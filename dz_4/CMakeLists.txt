@@ -40,8 +40,7 @@ if(WITH_CATCH2_TEST)
         CXX_STANDARD_REQUIRED ON
     )
 
-    target_link_libraries(test_print_ip
-        PRIVATE print_ip_lib
+    target_link_libraries(test_print_ip      
         PRIVATE Catch2::Catch2WithMain
     )
 endif()
@@ -67,6 +66,14 @@ else ()
             -Wall -Wextra -pedantic -Werror
         )
     endif()
+endif()
+
+find_package(Doxygen QUIET)
+if(DOXYGEN_FOUND)
+    configure_file(Doxyfile.in ${CMAKE_BINARY_DIR}/Doxyfile)
+    add_custom_target(doc COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile -o ${CMAKE_BINARY_DIR}/doc)
+else()
+    message(STATUS "WARNING: doxygen not found - target \"doc\" will not be available")
 endif()
 
 install(TARGETS print_ip RUNTIME DESTINATION bin)
