@@ -24,16 +24,65 @@ print_ip(const T &ip) {
   }
   std::cout << (uint16_t)(*pos) << "\n";
 }
+/**
+ * @brief проверка подстановки вектора
+ *
+ * @tparam Type
+ */
+template <class Type> struct is_std_vector {
+  static constexpr bool value = false;
+};
+/**
+ * @brief проверка подстановки вектора
+ *
+ * @tparam Type
+ */
+template <class Type> struct is_std_vector<std::vector<Type>> {
+  static constexpr bool value = true;
+};
+/**
+ * @brief проверка подстановки списка
+ *
+ * @tparam Type
+ */
+template <class Type> struct is_std_list {
+  static constexpr bool value = false;
+};
+/**
+ * @brief проверка подстановки списка
+ *
+ * @tparam Type
+ */
+template <class Type> struct is_std_list<std::list<Type>> {
+  static constexpr bool value = true;
+};
+/**
+ * @brief проверка подстановки строки
+ *
+ * @tparam ypename
+ */
+template <typename> struct is_std_string {
+  static constexpr bool value = false;
+};
+/**
+ * @brief проверка подстановки строки
+ *
+ * @tparam
+ */
+template <> struct is_std_string<std::string> {
+  static constexpr bool value = true;
+};
 
 /**
- * @brief Вывод значения адреса для контейнеров в стандартнойбиблиотке
+ * @brief Вывод значения адреса для контейнеров в стандартной библиотке
  *
  * @tparam T шаблонный тип
  * @param ip адрес
- * @return decltype(begin(std::declval<T>()), end(std::declval<T>()), void())
+ * @return typename std::enable_if<is_std_vector<T>::value ||
+ * is_std_list<T>::value>::type
  */
 template <typename T>
-decltype(begin(std::declval<T>()), end(std::declval<T>()), void())
+typename std::enable_if<is_std_vector<T>::value || is_std_list<T>::value>::type
 print_ip(const T &ip) {
   auto it = ip.begin();
   auto size = ip.size() - 1;
@@ -47,7 +96,10 @@ print_ip(const T &ip) {
  *
  * @param ip адрес
  */
-void print_ip(const std::string &ip) { std::cout << ip << "\n"; }
+template <typename T>
+typename std::enable_if<is_std_string<T>::value>::type print_ip(const T &ip) {
+  std::cout << ip << "\n";
+}
 namespace impl {
 /**
  * @brief Шаблон для конвертации типов
