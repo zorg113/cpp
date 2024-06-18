@@ -16,9 +16,9 @@ public:
     return std::make_unique<Rectangle>(m_upleft, m_width, m_height);
   }
 
-  void render(Canvas &canvas) override {
+  void draw(Canvas &canvas) override {
     canvas << " Rectangle{ UpLeft  " << m_upleft << ", width " << m_width
-           << ", height" << m_height << "}";
+           << ", height" << m_height << "}\n";
   }
 
 private:

@@ -12,8 +12,9 @@ public:
   Circel &operator=(Circel &&) = default;
   Ptr clone() override { return std::make_unique<Circel>(m_center, m_radius); }
 
-  void render(Canvas &canvas) override {
-    canvas << " Circel { Center  " << m_center << ", raduis " << m_radius << "}";
+  void draw(Canvas &canvas) override {
+    canvas << " Circel { Center  " << m_center << ", raduis " << m_radius
+           << "}\n";
   }
 
 private:

@@ -1,5 +1,5 @@
 #pragma once
-#include <document.hpp>
+#include "./../document/document.hpp"
 #include <iostream>
 namespace editor {
 class ISerialize {
@@ -9,8 +9,9 @@ public:
   virtual void export_document(const Document::Ptr &doc) = 0;
 };
 
-class FileIo : ISerialize {
+class FileIo : public ISerialize {
 public:
+  using Ptr = std::unique_ptr<FileIo>;
   FileIo(const std::string &filename) : m_filename(filename) {}
   ~FileIo() = default;
   FileIo() = delete;

@@ -11,8 +11,8 @@ public:
   Line &operator=(const Line &) = default;
   Line &operator=(Line &&) = default;
   Ptr clone() override { return std::make_unique<Line>(m_first, m_last); }
-  void render(Canvas &canvas) override {
-    canvas << " Rectangle{ Fist  " << m_first << ", Last " << m_last << "}";
+  void draw(Canvas &canvas) override {
+    canvas << " Rectangle{ Fist  " << m_first << ", Last " << m_last << "}\n";
   }
 
 private:
