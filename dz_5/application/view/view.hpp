@@ -5,6 +5,10 @@
 #include <iostream>
 
 namespace editor {
+/**
+ * @brief class View
+ *
+ */
 class View : public IRender {
 public:
   using Ptr = std::shared_ptr<View>;

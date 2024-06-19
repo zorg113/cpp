@@ -105,6 +105,50 @@ jobs:
     - run: cmake --build . --target test
     - run: cmake --build . --target package
     - run: cmake --build . --target doc
+    # - name: Create Release
+    #   id: create_release
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ github.run_number }}
+    #     release_name: Release ${{ github.run_number }}
+    #     draft: false
+    #     prerelease: false
+    # - name: Upload Release Asset
+    #   id: upload-release-asset
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+    #     asset_path: ./dz_4/print_ip-0.0.${{ github.run_number }}-Linux.deb
+    #     asset_name: print_ip-0.0.${{ github.run_number }}-Linux.deb
+    #     asset_content_type: application/vnd.debian.binary-package
+    # - name: Deploy to GitHub Pages
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #       github_token: ${{ secrets.GITHUB_TOKEN }}
+    #       publish_dir: ./dz_4/doc/html/
+    #       enable_jekyll: false
+    #       allow_empty_commit: false
+    #       force_orphan: true
+    #       publish_branch: document
+  dz_5:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./dz_5  
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - run: sudo apt-get update &&  sudo apt-get install doxygen graphviz -y          
+    - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DWITH_CATCH_TEST=ON
+    - run: cmake --build .
+    - run: cmake --build . --target test
+    - run: cmake --build . --target package
+    - run: cmake --build . --target doc
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -122,14 +166,14 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dz_4/print_ip-0.0.${{ github.run_number }}-Linux.deb
-        asset_name: print_ip-0.0.${{ github.run_number }}-Linux.deb
+        asset_path: ./dz_5/editor-0.0.${{ github.run_number }}-Linux.deb
+        asset_name: editor-0.0.${{ github.run_number }}-Linux.deb
         asset_content_type: application/vnd.debian.binary-package
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dz_4/doc/html/
+          publish_dir: ./dz_5/doc/html/
           enable_jekyll: false
           allow_empty_commit: false
           force_orphan: true

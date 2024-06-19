@@ -2,8 +2,19 @@
 #include "point.hpp"
 #include "shape.hpp"
 namespace editor {
+/**
+ * @brief class Rectangle
+ *  represents a rectangle
+ */
 class Rectangle : public IShape {
 public:
+  /**
+   * @brief Construct a new Rectangle object
+   *
+   * @param upleft  The upper left coordinate
+   * @param width   the width of the rectangle
+   * @param height  the height of the rectangle
+   */
   Rectangle(Point upleft, int width, int height)
       : m_upleft(upleft), m_width(width), m_height(height) {}
 
@@ -15,7 +26,11 @@ public:
   Ptr clone() override {
     return std::make_unique<Rectangle>(m_upleft, m_width, m_height);
   }
-
+  /**
+   * @brief draw the rectangle on canvas
+   *
+   * @param canvas
+   */
   void draw(Canvas &canvas) override {
     canvas << " Rectangle{ UpLeft  " << m_upleft << ", width " << m_width
            << ", height" << m_height << "}\n";
