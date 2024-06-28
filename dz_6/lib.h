@@ -2,4 +2,4 @@
 
 int version();
 
-void run_ip();
+void run_matrix();

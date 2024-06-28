@@ -2,10 +2,9 @@
 
 #include "matrix.hpp"
 #include "version.h"
-
-
-
-
+#include <cassert>
+#include <cstdlib>
+#include <iostream>
 
 /**
  * @brief  вывод версии
@@ -13,14 +12,38 @@
  * @return int номер версии
  */
 int version() { return PROJECT_VERSION_PATCH; }
-
-void run_ip() {
-  print_ip(int8_t{-1});                           // 255
-  print_ip(int16_t{0});                           // 0.0
-  print_ip(int32_t{2130706433});                  // 127.0.0.1
-  print_ip(int64_t{8875824491850138409});         // 123.45.67.89.101.112.131.41
-  print_ip(std::string{"Hello, World !"});        // Hello, World!
-  print_ip(std::vector<int>{100, 200, 300, 400}); // 100.200.300.400
-  print_ip(std::list<short>{400, 300, 200, 100}); // 400.300.200.100
-  print_ip(std::make_tuple(123, 456, 789, 0));    // 123.456.789.0
+/**
+ * @brief работа с матрицей
+ *
+ */
+void run_matrix() {
+  mt::matrix<int, 0> test_m;
+  const size_t size = 9;
+  for (size_t i = 0; i <= size; ++i) {
+    test_m[i][i] = i;
+    test_m[i][size - i] = size - i;
+  }
+  for (auto i = 1; i <= 8; ++i) {
+    for (auto j = 1; j <= 8; ++j)
+      std::cout << test_m[i][j] << " ";
+  }
+  std::cout << std::endl;
+  std::cout << test_m.size() << std::endl;
+  for (auto it : test_m) {
+    int x, y, v;
+    std::tie(x, y, v) = it;
+    std::cout << "[" << x << "]"
+              << "[" << y << "] val " << v << std::endl;
+  }
+  mt::matrix<int, 0, 3> test_3d;
+  for (size_t i = 0; i <= size; ++i) {
+    for (size_t j = 0; j <= size; ++j) {
+      test_3d[i][i][j] = i;
+      test_3d[i][size - i][j] = size - i;
+    }
+  }
+  std::cout << test_3d.size() << std::endl;
+  std::cout << test_3d[5][5][5] << std::endl;
+  ((test_3d[5][5][5] = 10) = 111) = 999;
+  std::cout << test_3d[5][5][5] << std::endl;
 }
