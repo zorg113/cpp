@@ -3,6 +3,10 @@
 #include <map>
 #include <numeric>
 namespace mt {
+/**
+ * @brief class matrix
+ * contains nested maps except terminal ones
+ */
 template <typename T, T default_value, size_t dim = 2> class matrix {
 public:
   using store_data = std::map<size_t, matrix<T, default_value, dim - 1>>;
@@ -15,6 +19,10 @@ public:
         m_store.begin(), m_store.end(), 0,
         [](size_t val, auto &ref) { return val + ref.second.size(); });
   }
+  /**
+   * @brief class internal_iter
+   *  support std iterator
+   */
   class internal_iter : public std::iterator_traits<std::forward_iterator_tag> {
   public:
     internal_iter(const iter &_ptr, store_data &stor)
@@ -65,10 +73,18 @@ private:
   store_data m_store;
 };
 
+/**
+ * @brief specificated class matrix
+ * contains terminal map
+ */
 template <typename T, T default_value> class matrix<T, default_value, 1> {
 public:
   using data = std::map<size_t, T>;
   using internal_iter = typename data::iterator;
+  /**
+   * @brief proxy class access to map
+   *
+   */
   class store_proxy {
     data &r_value;
     size_t indx;
