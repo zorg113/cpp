@@ -24,14 +24,15 @@ private:
   bulk curr_bulk;
   out outputs;
 };
+
 void parser_cmd::new_str(const str &input) {
-  if (input != "{" and input != "}") {
+  if (input != "{" && input != "}") {
     curr_bulk.push(input);
     if (curr_bulk.size() == bulk_limit && nest_count == 0) {
       flush();
     }
   } else if (input == "{") {
-    if (nest_count == 0) {
+    if (nest_count == 0 ) {
       flush();
     }
     ++nest_count;
@@ -44,9 +45,11 @@ void parser_cmd::new_str(const str &input) {
   }
 }
 void parser_cmd::flush() {
-  for (const auto &el : outputs) {
-    el->update(curr_bulk);
+  if (curr_bulk.size() != 0) {
+    for (const auto &el : outputs) {
+      el->update(curr_bulk);
+    }
+    curr_bulk.clear();
   }
-  curr_bulk.clear();
 }
 } // namespace cmd
