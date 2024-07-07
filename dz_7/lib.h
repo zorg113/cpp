@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stddef.h>
 int version();
 
-void run_matrix();
+void parser_bulk(size_t num_cmd);
