@@ -7,7 +7,10 @@
 #include "ioutdev.hpp"
 
 namespace cmd {
-
+/**
+ * @brief class parser command
+ *
+ */
 class parser_cmd {
 public:
   using out = std::vector<std::unique_ptr<ioutdev>>;
@@ -28,7 +31,11 @@ private:
   bulk curr_bulk;
   out outputs;
 };
-
+/**
+ * @brief parse new string to command
+ *
+ * @param input
+ */
 void parser_cmd::new_str(const str &input) {
   if (input != "{" && input != "}") {
     curr_bulk.push(input);
@@ -48,6 +55,10 @@ void parser_cmd::new_str(const str &input) {
     }
   }
 }
+/**
+ * @brief flush command
+ *
+ */
 void parser_cmd::flush() {
   if (curr_bulk.size() != 0) {
     for (const auto &el : outputs) {
