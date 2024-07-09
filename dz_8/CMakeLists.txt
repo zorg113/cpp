@@ -49,12 +49,13 @@ if(WITH_CATCH2_TEST)
     add_executable(test_bayan test_bayan.cpp)
 
     set_target_properties(test_bayan PROPERTIES
-        CXX_STANDARD 14
+        CXX_STANDARD 20
         CXX_STANDARD_REQUIRED ON
     )
 
     target_link_libraries(test_bayan      
         PRIVATE Catch2::Catch2WithMain
+        bayan_lib  ${Boost_LIBRARIES}
     )
 endif()
 
@@ -101,5 +102,5 @@ include(CPack)
 
 if(WITH_CATCH2_TEST)
     enable_testing()
-    add_test(test test_bayan)
+    add_test(NAME test  COMMAND test_bayan )
 endif()

@@ -8,7 +8,7 @@
 
 namespace ba {
 
-std::size_t file_info::m_bulk_size = 0;
+size_t file_info::m_bulk_size = 0;
 
 bayan::bayan(const configure &conf) { set_config(conf); }
 
@@ -35,8 +35,8 @@ std::vector<files_info> bayan::find_bayans() {
 }
 
 files_info bayan::scan_dirs(const vec_str &targets, const vec_str &excludes,
-                            const vec_str &patterns, std::size_t min_size,
-                            std::size_t depth) const {
+                            const vec_str &patterns, size_t min_size,
+                            size_t depth) const {
   auto files = std::unordered_map<str, std::size_t>();
   for (auto &t : targets) {
     fs::recursive_directory_iterator it(t), end;
@@ -99,7 +99,7 @@ files_info bayan::get_dub_size_files(files_info &files) const {
 
 std::vector<files_info> bayan::get_file_groups(files_info &files) const {
   std::vector<files_info> dubl_files_group;
-  for (std::size_t i = 0; i < files.size(); ++i) {
+  for (size_t i = 0; i < files.size(); ++i) {
     auto it = std::partition(
         ++files.begin(), files.end(),
         [this, file = files[0]](auto &f) mutable { return !compare(file, f); });

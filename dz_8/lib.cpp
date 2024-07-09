@@ -60,18 +60,21 @@ void run_bayan(int argc, char *argv[]) {
     get_value("min-size", conf.m_minsize);
     get_value("bulk-size", ba::file_info::m_bulk_size);
 
-    get_value("hash", conf.m_hash);
+    std::string alg;
+    get_value("hash", alg);
+    if (alg == "crc") {
+      conf.m_hash = ba::hash_type::_crc_;
+    }
 
     ba::bayan search(conf);
     std::vector<ba::files_info> bayans;
 
-    while (!(bayans = search.find_bayans()).empty()){
-      for(auto & group:bayans){
-        for(auto& f: group){
-          std::cout<< ba::fs::canonical(f.m_path) << std::endl;
-        }
-      }
-    }
+   bayans = search.find_bayans();
+   for (auto &group : bayans) {
+     for (auto &f : group) {
+       std::cout << ba::fs::canonical(f.m_path) << std::endl;
+     }
+   }
 
   } catch (const std::exception &e) {
     std::cerr << e.what() << std::endl;
