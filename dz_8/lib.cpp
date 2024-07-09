@@ -23,12 +23,12 @@ void run_bayan(int argc, char *argv[]) {
     desc.add_options()("help,h", "get help")(
         "target,t", po::value<std::vector<str>>(), "target dir")(
         "exclude,e", po::value<std::vector<str>>(), "exclude dir")(
-        "name,n", po::value<std::vector<str>>(),
-        "file name pattern")("depth,d", po::value<size_t>()->default_value(0),
-                             "scan depth 0 - only target dir")(
-        "min-size", po::value<size_t>()->default_value(1),
+        "name,n", po::value<std::vector<str>>(), "file name pattern")(
+        "depth,d", po::value<std::size_t>()->default_value(0),
+        "scan depth 0 - only target dir")(
+        "min-size", po::value<std::size_t>()->default_value(1),
         "minimal file size for scan in bytes")(
-        "bulk-size", po::value<size_t>()->default_value(16),
+        "bulk-size", po::value<std::size_t>()->default_value(16),
         "compare bulk size in bytes")("hash",
                                       po::value<str>()->default_value("crc"),
                                       "hash algirithm: crc, sha254");

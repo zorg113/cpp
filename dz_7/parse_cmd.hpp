@@ -14,7 +14,7 @@ namespace cmd {
 class parser_cmd {
 public:
   using out = std::vector<std::unique_ptr<ioutdev>>;
-  parser_cmd(size_t len) : bulk_limit(len), curr_bulk(len) {
+  parser_cmd(std::size_t len) : bulk_limit(len), curr_bulk(len) {
     outputs.push_back(std::make_unique<console>()),
         outputs.push_back(std::make_unique<file>());
   }
@@ -26,8 +26,8 @@ public:
   void flush();
 
 private:
-  size_t nest_count = 0;
-  size_t bulk_limit;
+  std::size_t nest_count = 0;
+  std::size_t bulk_limit;
   bulk curr_bulk;
   out outputs;
 };

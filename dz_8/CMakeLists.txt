@@ -11,15 +11,17 @@ configure_file(version.h.in version.h)
 
 set(Boost_USE_STATIC_LIBS ON)
 
-file(GLOB_RECURSE HPP "include/*.hpp")
+
 
 find_package(Boost COMPONENTS program_options filesystem REQUIRED)
+
+include_directories( ${PROJECT_SOURCE_DIR}/include )
 
 add_executable(bayan main.cpp)
 add_library(bayan_lib 
             lib.cpp
             src/bayan.cpp
-            src/hash.cpp  ${HPP}
+            src/hash.cpp              
 )
 
 
