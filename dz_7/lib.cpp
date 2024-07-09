@@ -19,5 +19,5 @@ void parser_bulk(size_t num_cmd) {
   while (std::cin >> data) {
     parser.new_str(data);
   }
-  parser.flush();
+  parser.finish();
 }

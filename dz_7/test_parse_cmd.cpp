@@ -34,7 +34,7 @@ TEST_CASE("Test_1") {
     }
     buffer = cap();
   }
-  REQUIRE(buffer == "bulk: cmd1 cmd2 cmd3 \n"s);
+  REQUIRE(buffer == "bulk: cmd1, cmd2, cmd3\n"s);
 }
 
 TEST_CASE("Test_2") {
@@ -50,7 +50,7 @@ TEST_CASE("Test_2") {
     }
     buffer = cap();
   }
-  REQUIRE(buffer == "bulk: cmd1 cmd2 cmd3 \n"s);
+  REQUIRE(buffer == "bulk: cmd1, cmd2, cmd3\n"s);
 }
 
 TEST_CASE("Test_3") {
@@ -63,7 +63,7 @@ TEST_CASE("Test_3") {
       parser.new_str("cmd2"s);
       parser.new_str("{"s);
       buffer = cap();
-      REQUIRE(buffer == "bulk: cmd1 cmd2 \n"s);
+      REQUIRE(buffer == "bulk: cmd1, cmd2\n"s);
     }
     {
       CaptureCout cap = {std::cout};
@@ -73,7 +73,7 @@ TEST_CASE("Test_3") {
       buffer = cap();
     }
   }
-  REQUIRE(buffer == "bulk: cmd3 cmd4 \n"s);
+  REQUIRE(buffer == "bulk: cmd3, cmd4\n"s);
 }
 
 TEST_CASE("Test_4") {
@@ -86,7 +86,7 @@ TEST_CASE("Test_4") {
       parser.new_str("cmd2"s);
       parser.new_str("{"s);
       buffer = cap();
-      REQUIRE(buffer == "bulk: cmd1 cmd2 \n"s);
+      REQUIRE(buffer == "bulk: cmd1, cmd2\n"s);
     }
     {
       CaptureCout cap = {std::cout};
@@ -94,7 +94,7 @@ TEST_CASE("Test_4") {
       parser.new_str("cmd4"s);
       parser.new_str("}"s);
       buffer = cap();
-      REQUIRE(buffer == "bulk: cmd3 cmd4 \n"s);
+      REQUIRE(buffer == "bulk: cmd3, cmd4\n"s);
     }
     {
       CaptureCout cap = {std::cout};
@@ -108,16 +108,16 @@ TEST_CASE("Test_4") {
       parser.new_str("cmd9"s);
       parser.new_str("}"s);
       buffer = cap();
-      REQUIRE(buffer == "bulk: cmd5 cmd6 cmd7 cmd8 cmd9 \n"s);
+      REQUIRE(buffer == "bulk: cmd5, cmd6, cmd7, cmd8, cmd9\n"s);
     }
     {
       CaptureCout cap = {std::cout};
       parser.new_str("{"s);
       parser.new_str("cmd10"s);
       parser.new_str("cmd11"s);
-      parser.flush();
+      parser.finish();
       buffer = cap();
-      REQUIRE(buffer == "bulk: cmd10 cmd11 \n"s);
+      REQUIRE(buffer == ""s);
     }
   }
 }

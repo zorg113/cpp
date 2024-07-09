@@ -16,6 +16,10 @@ public:
         outputs.push_back(std::make_unique<file>());
   }
   void new_str(const str &input);
+  void finish() {
+    if (nest_count == 0)
+      flush();
+  }
   void flush();
 
 private:
@@ -32,7 +36,7 @@ void parser_cmd::new_str(const str &input) {
       flush();
     }
   } else if (input == "{") {
-    if (nest_count == 0 ) {
+    if (nest_count == 0) {
       flush();
     }
     ++nest_count;
