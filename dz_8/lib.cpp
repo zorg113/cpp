@@ -1,10 +1,12 @@
-#include "lib.h"
 
-#include "version.h"
 #include <boost/program_options.hpp>
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
+
+#include "bayan.hpp"
+#include "lib.h"
+#include "version.h"
 
 namespace po = boost::program_options;
 
@@ -43,6 +45,32 @@ void run_bayan(int argc, char *argv[]) {
       std::cout << "Usage: " << argv[0] << " target dir ...\n"
                 << desc << std::endl;
       return;
+    }
+    auto get_value = [&vm](const char *name, auto &value) {
+      if (vm.count(name)) {
+        value = vm[name].as<std::remove_reference_t<decltype(value)>>();
+      }
+    };
+    ba::configure conf;
+    get_value("target", conf.m_targets);
+    get_value("exclude", conf.m_excludes);
+    get_value("name", conf.m_patterns);
+
+    get_value("depth", conf.m_depth);
+    get_value("min-size", conf.m_minsize);
+    get_value("bulk-size", ba::file_info::m_bulk_size);
+
+    get_value("hash", conf.m_hash);
+
+    ba::bayan search(conf);
+    std::vector<ba::files_info> bayans;
+
+    while (!(bayans = search.find_bayans()).empty()){
+      for(auto & group:bayans){
+        for(auto& f: group){
+          std::cout<< ba::fs::canonical(f.m_path) << std::endl;
+        }
+      }
     }
 
   } catch (const std::exception &e) {
