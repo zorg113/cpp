@@ -39,9 +39,12 @@ namespace fs = std::filesystem;
 
 TEST_CASE("bayan ") {
   int argc = 9;
-  const char *argv[9] = {
-      "bayan", "-t", "./../test_data", "-e", "./../test_data/ex", "-a", "sha1",
-      "-d",    "1"};
+  const char *argv[9] = {"bayan", "-t",   "test_data", "-e", "test_data/ex",
+                         "-a",    "sha1", "-d",        "1"};
+  // const char *argv[9] = {
+  //     "bayan", "-t", "./../test_data", "-e", "./../test_data/ex", "-a",
+  //     "sha1",
+  //     "-d",    "1"};
   std::cerr << fs::current_path() << "\n";
   std::string buff;
   {
