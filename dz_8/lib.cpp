@@ -31,7 +31,7 @@ void run_bayan(int argc, char *argv[]) {
         "min-size", po::value<std::size_t>()->default_value(1),
         "minimal file size for scan in bytes")(
         "bulk-size", po::value<std::size_t>()->default_value(16),
-        "compare bulk size in bytes")("hash",
+        "compare bulk size in bytes")("hash,a",
                                       po::value<str>()->default_value("crc"),
                                       "hash algirithm: crc, sha254");
     po::positional_options_description pos;

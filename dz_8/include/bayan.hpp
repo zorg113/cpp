@@ -11,7 +11,7 @@
 namespace ba {
 using namespace std::string_literals;
 /// @brief  type hash
-enum hash_type { _crc_, _sha256_ };
+enum hash_type { _crc_, _sha1_ };
 /// @brief  configure bayan class
 struct configure {
   vec_str m_targets;

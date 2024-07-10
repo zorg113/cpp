@@ -13,7 +13,7 @@ public:
   void operator()(file_info &file) override;
 };
 
-class sha256_hash : public hash {
+class sha1_hash : public hash {
 public:
   void operator()(file_info &file) override;
 };

@@ -13,8 +13,8 @@ size_t file_info::m_bulk_size = 0;
 bayan *create_bayan(configure &conf, const str &alg) {
   if (alg == "crc"s)
     conf.m_hash = hash_type::_crc_;
-  else if (alg == "sha256")
-    conf.m_hash = hash_type::_sha256_;
+  else if (alg == "sha1")
+    conf.m_hash = hash_type::_sha1_;
   else
     return nullptr;
   return new bayan(conf);
@@ -26,6 +26,9 @@ void bayan::set_config(const configure &conf) {
   m_conf = conf;
   if (conf.m_hash == hash_type::_crc_) {
     m_hash = std::make_unique<crc_hash>();
+  }
+  if (conf.m_hash == hash_type::_sha1_) {
+    m_hash = std::make_unique<sha1_hash>();
   }
 }
 
