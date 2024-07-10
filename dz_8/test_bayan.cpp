@@ -38,8 +38,9 @@ std::string get_relative_test_path(std::string &in, std::string relative) {
 namespace fs = std::filesystem;
 
 TEST_CASE("bayan ") {
-  int argc = 5;
-  const char *argv[5] = {"bayan", "-t", "./../test_data", "-d", "1"};
+  int argc = 7;
+  const char *argv[7] = {
+      "bayan", "-t", "./../test_data", "-e", "./../test_data/ex", "-d", "1"};
   std::cerr << fs::current_path() << "\n";
   std::string buff;
   {

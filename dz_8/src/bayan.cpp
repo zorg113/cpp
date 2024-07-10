@@ -10,6 +10,16 @@ namespace ba {
 
 size_t file_info::m_bulk_size = 0;
 
+bayan *create_bayan(configure &conf, const str &alg) {
+  if (alg == "crc"s)
+    conf.m_hash = hash_type::_crc_;
+  else if (alg == "sha256")
+    conf.m_hash = hash_type::_sha256_;
+  else
+    return nullptr;
+  return new bayan(conf);
+}
+
 bayan::bayan(const configure &conf) { set_config(conf); }
 
 void bayan::set_config(const configure &conf) {
@@ -52,12 +62,12 @@ files_info bayan::scan_dirs(const vec_str &targets, const vec_str &excludes,
         }
       } else if (fs::is_directory(it.status())) {
         if (it.depth() >= depth) {
-          it.no_push();
+          it.disable_recursion_pending();
         }
         auto abs_path = fs::canonical(*it);
         for (auto &exclude : excludes) {
           if (abs_path == fs::canonical(exclude)) {
-            it.no_push();
+            it.disable_recursion_pending();
           }
         }
       }

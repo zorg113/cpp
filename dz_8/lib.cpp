@@ -62,20 +62,20 @@ void run_bayan(int argc, char *argv[]) {
 
     std::string alg;
     get_value("hash", alg);
-    if (alg == "crc") {
-      conf.m_hash = ba::hash_type::_crc_;
+
+    std::unique_ptr<ba::bayan> search(ba::create_bayan(conf, alg));
+    if (search != nullptr) {
+      std::vector<ba::files_info> bayans;
+
+      bayans = search->find_bayans();
+      for (auto &group : bayans) {
+        for (auto &f : group) {
+          std::cout << ba::fs::canonical(f.m_path) << std::endl;
+        }
+      }
+    } else {
+      std::cerr << "unknown hash algorythm " << std::endl;
     }
-
-    ba::bayan search(conf);
-    std::vector<ba::files_info> bayans;
-
-   bayans = search.find_bayans();
-   for (auto &group : bayans) {
-     for (auto &f : group) {
-       std::cout << ba::fs::canonical(f.m_path) << std::endl;
-     }
-   }
-
   } catch (const std::exception &e) {
     std::cerr << e.what() << std::endl;
   }
