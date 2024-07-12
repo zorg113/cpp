@@ -18,7 +18,7 @@ int version() { return PROJECT_VERSION_PATCH; }
  *
  * @param num_cmd - size command buffer
  */
-void parser_bulk(size_t num_cmd) {
+void parser_bulk(std::size_t num_cmd) {
   cmd::str data;
   cmd::parser_cmd parser(num_cmd);
   while (std::cin >> data) {

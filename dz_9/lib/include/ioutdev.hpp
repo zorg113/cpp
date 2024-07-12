@@ -31,7 +31,7 @@ public:
 class file : public ioutdev {
 public:
   void update(const bulk &blk) final {
-    std::ofstream f("bulk" + blk.name());
+    std::ofstream f("bulk" + blk.name()); // add thread id
     f << blk.output() << std::endl;
     f.close();
   }
