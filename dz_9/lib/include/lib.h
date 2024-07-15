@@ -1,5 +1,6 @@
 #pragma once
+#include "async.h"
 
 int version();
 
-void run_bayan(int argc, char *argv[]);
+void parser_bulk(std::size_t num_cmd);

@@ -79,6 +79,7 @@
         "stdfloat": "cpp",
         "text_encoding": "cpp",
         "codecvt": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "*.ipp": "cpp"
     }
 }

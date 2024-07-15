@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
   if (argc != 2) {
     std::cout << "Usage" << std::endl;
     std::cout << " num bulk" << std::endl;
+    return -1;
   }
   try {
     const int num_bulk{std::atoi(argv[1])};

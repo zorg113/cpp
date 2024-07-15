@@ -17,6 +17,8 @@ include_directories( ${PROJECT_SOURCE_DIR}/lib/include )
 set( aysnc_lib_src 
             lib/src/async.cpp
             lib/src/lib.cpp
+            lib/src/bulk.cpp
+            lib/src/parse_cmd.cpp
 )
  
 
@@ -35,7 +37,7 @@ set_target_properties(libasync_static PROPERTIES
 
 target_include_directories(libasync
                            PRIVATE 
-                        "${CMAKE_BINARY_DIR}"                          
+                          "${CMAKE_BINARY_DIR}"                          
 )
 
 
@@ -62,7 +64,7 @@ set_target_properties(
     CXX_STANDARD_REQUIRED ON
 )
 
-target_link_libraries(bulk_async_cli PRIVATE  libasync)
+target_link_libraries(bulk_async_cli PUBLIC libasync)
 ####################################
 ###### Test block ##################
 if(WITH_CATCH2_TEST)
