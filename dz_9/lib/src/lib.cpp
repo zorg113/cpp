@@ -18,7 +18,7 @@ int version() { return PROJECT_VERSION_PATCH; }
  *
  * @param num_cmd - size command buffer
  */
-void parser_bulk(std::size_t num_cmd) {
+void parser_bulk(std::size_t /*num_cmd*/) {
   using namespace std::string_literals;
   auto first = []() {
     auto ctx1 = async::connect(3ul);
@@ -43,7 +43,7 @@ void parser_bulk(std::size_t num_cmd) {
   ///////////////////////////////////////////////////////////////
   auto third = []() {
     auto ctx3 = async::connect(5ul);
-    std::string pack3[] = {"cm31"s,  "cmd32"s, "cmd33"s,
+    std::string pack3[] = {"cmd31"s, "cmd32"s, "cmd33"s,
                            "cmd34"s, "cmd35"s, "cmd36"s};
     async::recive(ctx3, pack3[0].c_str(), pack3[0].size());
     async::recive(ctx3, pack3[1].c_str(), pack3[1].size());
@@ -60,4 +60,6 @@ void parser_bulk(std::size_t num_cmd) {
   first_th.join();
   second_th.join();
   third_th.join();
+
+  async::shutdown();
 }

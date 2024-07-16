@@ -13,7 +13,7 @@
 #include "qeue.hpp"
 namespace async {
 
-using qeue_tf = async::deque_thread_safe<cmd::bulk>;
+using qeue_tf = async::queue_thread_safe<cmd::bulk>;
 /**
  * @brief class outpud data
  *
@@ -34,23 +34,18 @@ public:
   }
   ~log() { join(); }
   void join() {
-    m_execute.store(false);
-    {
-      std::unique_lock<std::mutex> lock(m_thmutex);
-      m_cond.notify_one();
-    }
+    // m_qeue.wake_and_done();
     if (m_thread.joinable())
       m_thread.join();
+    m_execute.store(false);
   }
   void update() final {
-    while (m_execute || !m_qeue.empty()) {
-      if (m_qeue.empty()) {
-        std::unique_lock<std::mutex> lock(m_thmutex);
-        m_cond.wait(lock);
-      }
-      if (m_qeue.empty())
-        continue;
+    auto id = std::this_thread::get_id();
+    id = id;
+    while (m_execute) {
       auto blk = m_qeue.front();
+      if (blk.is_stopped())
+        break;
       output(blk);
     }
   }
@@ -72,30 +67,29 @@ private:
 class file : public ioutdev {
 public:
   explicit file(qeue_tf &qeue) : m_qeue(qeue) {
+    // ++num;
     m_thread = std::thread(&file::update, this);
   }
   void join() {
-    m_execute.store(false);
-    {
-      std::unique_lock<std::mutex> lock(m_thmutex);
-      m_cond.notify_one();
-    }
     if (m_thread.joinable())
       m_thread.join();
+    m_execute.store(false);
   }
-  ~file() { join(); }
+  ~file() {
+    //--num;
+    join();
+  }
 
   void update() final {
-    while (m_execute || !m_qeue.empty()) {
-      if (m_qeue.empty()) {
-        std::unique_lock<std::mutex> lock(m_thmutex);
-        m_cond.wait_for(lock, std::chrono::seconds(1));
-      }
-      if (m_qeue.empty())
-        continue;
+    auto id = std::this_thread::get_id();
+    id = id;
+    while (m_execute) {
       auto blk = m_qeue.front();
+      if (blk.is_stopped())
+        break;
       output(blk);
     }
+    m_qeue.wake_next();
   }
 
 private:
@@ -116,6 +110,7 @@ private:
   std::thread m_thread;
   std::mutex m_thmutex;
   std::condition_variable m_cond;
+  // static int num;
 };
 
 } // namespace async

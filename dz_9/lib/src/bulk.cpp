@@ -1,6 +1,7 @@
 #include "bulk.hpp"
 
 namespace cmd {
+
 /**
  * @brief push data to bulk
  *

@@ -37,6 +37,12 @@ void recive(handler &ctx, const char *data, std::size_t size_data);
  */
 void disconnect(handler &ctx);
 
+/**
+ * @brief shudown thread in library
+ *
+ */
+void shutdown(void);
+
 class context {
 
 public:
@@ -44,11 +50,14 @@ public:
 
   void run(const char *data, const std::size_t size_data);
   ~context();
+  static void shutdown();
 
 private:
   std::unique_ptr<cmd::parser_cmd> m_parser;
-  static log to_log;
-  static file to_file[2];
+  static std::mutex mutx;
+  static std::atomic<int64_t> counter;
+  static std::unique_ptr<log> to_log;
+  static std::unique_ptr<file> to_file[2];
   static qeue_tf qeue_file;
   static qeue_tf qeue_console;
 };

@@ -1,6 +1,6 @@
 #pragma once
-#include <deque>
 #include <mutex>
+#include <queue>
 /**
  * @brief qeue thread safe
  *
@@ -8,39 +8,50 @@
 
 namespace async {
 
-template <typename T> class deque_thread_safe {
+template <typename T> T limiter();
+
+template <typename T> class queue_thread_safe {
 public:
-  /// @brief check deque is empty
-  /// @return
-  bool empty() const {
-    std::lock_guard<std ::mutex> guard(m_mutex);
-    return m_deque.empty();
-  }
   /// @brief push back to deque
   /// @param obj
   void push_back(const T obj) {
-    std::lock_guard<std ::mutex> guard(m_mutex);
-    m_deque.push_back(obj);
+    std::unique_lock<std ::mutex> lock(m_mutex);
+    m_deque.push(obj);
+    cons.notify_one();
   }
 
   /// @brief  get front element
   /// @return
   T front() {
-    std::lock_guard<std ::mutex> guard(m_mutex);
+    std::unique_lock<std ::mutex> lock(m_mutex);
+    cons.wait(lock, [this] { return !m_deque.empty(); });
     auto ret = m_deque.front();
-    m_deque.pop_front();
+    if (!ret.is_stopped()) {
+      m_deque.pop();
+      if (!m_deque.empty())
+         cons.notify_all();
+    }
     return ret;
   }
-  /// @brief  pop front element
-  void pop_front() { std::lock_guard<std ::mutex> guard(m_mutex); }
   /// @brief  clear deque
-  void clear() {
-    std::lock_guard<std ::mutex> guard(m_mutex);
-    m_deque.clear();
+  auto size() {
+    std::unique_lock<std ::mutex> lock(m_mutex);
+    return m_deque.size();
   }
 
+  void wake_and_done() {
+    std::unique_lock<std ::mutex> lock(m_mutex);
+    m_deque.push(limiter<T>());
+    cons.notify_all();
+  }
+  void wake_next() { 
+    std::unique_lock<std ::mutex> lock(m_mutex);
+    cons.notify_all();
+   }
+
 private:
-  std::deque<T> m_deque;
+  std::condition_variable cons;
+  std::queue<T> m_deque;
   mutable std::mutex m_mutex;
 };
 

@@ -108,8 +108,12 @@ if (MSVC)
         )
     endif()
 else ()
+   target_compile_options( libasync  PRIVATE
+        -Wall -Wextra -pedantic -Werror 
+    )
+    #-fPIC -pie -g  -fsanitize=thread 
     target_compile_options(bulk_async_cli PRIVATE
-        -Wall -Wextra -pedantic -Werror
+         -Wall -Wextra -pedantic -Werror
     )
     if(WITH_CATCH2_TEST)
         target_compile_options(test_parse_cmd PRIVATE
