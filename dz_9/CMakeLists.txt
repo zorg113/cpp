@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(bulk VERSION ${PROJECT_VESRION})
+project(async VERSION ${PROJECT_VESRION})
 
 option(WITH_CATCH2_TEST "Whether to build Catch2 test" ON)
 
@@ -96,10 +96,10 @@ endif()
 #### Compiler options ###############
 ######################################
 if (MSVC)
-    target_compile_options(bulk PRIVATE
+    target_compile_options(async PRIVATE
         /W4
     )
-    target_compile_options(parse_cmd_lib PRIVATE
+    target_compile_options(bulk_async_cli PRIVATE
         /W4
     )
   if(WITH_CATCH2_TEST)
