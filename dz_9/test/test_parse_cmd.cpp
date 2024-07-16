@@ -23,102 +23,18 @@ private:
 }; // namespace Catchclass CaptureCout
 
 TEST_CASE("Test_1") {
-  /// std::string buffer;
-  // cmd::parser_cmd parser(3);
-  // {
-  //   CaptureCout cap = {std::cout};
-  //   {
-  //     parser.new_str("cmd1"s);
-  //     parser.new_str("cmd2"s);
-  //     parser.new_str("cmd3"s);
-  //   }
-  //   buffer = cap();
-  // }
-  // REQUIRE(buffer == "bulk: cmd1, cmd2, cmd3\n"s);
-}
-#if 0
-TEST_CASE("Test_2") {
   std::string buffer;
-  cmd::parser_cmd parser(3);
+  async::qeue_tf qeue_f;
+  async::qeue_tf qeue_log;
+  cmd::parser_cmd parser(3, qeue_f, qeue_log);
   {
     CaptureCout cap = {std::cout};
     {
       parser.new_str("cmd1"s);
       parser.new_str("cmd2"s);
       parser.new_str("cmd3"s);
-      parser.new_str("cmd4"s);
     }
     buffer = cap();
   }
-  REQUIRE(buffer == "bulk: cmd1, cmd2, cmd3\n"s);
+  REQUIRE(buffer == ""s);
 }
-
-TEST_CASE("Test_3") {
-  std::string buffer;
-  cmd::parser_cmd parser(3);
-  {
-    {
-      CaptureCout cap = {std::cout};
-      parser.new_str("cmd1"s);
-      parser.new_str("cmd2"s);
-      parser.new_str("{"s);
-      buffer = cap();
-      REQUIRE(buffer == "bulk: cmd1, cmd2\n"s);
-    }
-    {
-      CaptureCout cap = {std::cout};
-      parser.new_str("cmd3"s);
-      parser.new_str("cmd4"s);
-      parser.new_str("}"s);
-      buffer = cap();
-    }
-  }
-  REQUIRE(buffer == "bulk: cmd3, cmd4\n"s);
-}
-
-TEST_CASE("Test_4") {
-  std::string buffer;
-  cmd::parser_cmd parser(3);
-  {
-    {
-      CaptureCout cap = {std::cout};
-      parser.new_str("cmd1"s);
-      parser.new_str("cmd2"s);
-      parser.new_str("{"s);
-      buffer = cap();
-      REQUIRE(buffer == "bulk: cmd1, cmd2\n"s);
-    }
-    {
-      CaptureCout cap = {std::cout};
-      parser.new_str("cmd3"s);
-      parser.new_str("cmd4"s);
-      parser.new_str("}"s);
-      buffer = cap();
-      REQUIRE(buffer == "bulk: cmd3, cmd4\n"s);
-    }
-    {
-      CaptureCout cap = {std::cout};
-      parser.new_str("{"s);
-      parser.new_str("cmd5"s);
-      parser.new_str("cmd6"s);
-      parser.new_str("{"s);
-      parser.new_str("cmd7"s);
-      parser.new_str("cmd8"s);
-      parser.new_str("}"s);
-      parser.new_str("cmd9"s);
-      parser.new_str("}"s);
-      buffer = cap();
-      REQUIRE(buffer == "bulk: cmd5, cmd6, cmd7, cmd8, cmd9\n"s);
-    }
-    {
-      CaptureCout cap = {std::cout};
-      parser.new_str("{"s);
-      parser.new_str("cmd10"s);
-      parser.new_str("cmd11"s);
-      parser.finish();
-      buffer = cap();
-      REQUIRE(buffer == ""s);
-    }
-  }
-}
-#endif

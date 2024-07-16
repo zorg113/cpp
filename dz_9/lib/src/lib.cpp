@@ -18,7 +18,7 @@ int version() { return PROJECT_VERSION_PATCH; }
  *
  * @param num_cmd - size command buffer
  */
-void parser_bulk(std::size_t /*num_cmd*/) {
+void parser_bulk([[maybe_unused]] std::size_t num_cmd) {
   using namespace std::string_literals;
   auto first = []() {
     auto ctx1 = async::connect(3ul);

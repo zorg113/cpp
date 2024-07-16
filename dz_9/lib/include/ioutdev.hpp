@@ -34,7 +34,6 @@ public:
   }
   ~log() { join(); }
   void join() {
-    // m_qeue.wake_and_done();
     if (m_thread.joinable())
       m_thread.join();
     m_execute.store(false);
@@ -94,6 +93,7 @@ public:
 
 private:
   void output(const cmd::bulk &blk) {
+
     using namespace std::chrono_literals;
     std::ostringstream ss;
     std::random_device r;
@@ -101,7 +101,7 @@ private:
     std::mt19937 e2(seed);
     auto id = std::this_thread::get_id();
     ss << "bulk" << blk.name() << " " << e2() << "_" << id;
-    std::ofstream f(ss.str()); // add thread id
+    std::ofstream f(ss.str());
     f << blk.output() << std::endl;
     f.close();
   }
