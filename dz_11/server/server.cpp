@@ -11,7 +11,7 @@ void server::do_accept() {
         if (!ec) {
           std::make_shared<session>(std::move(socket), m_store)->start();
         }
-        // do_accept();
+        do_accept();
       });
 }
 

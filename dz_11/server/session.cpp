@@ -17,7 +17,7 @@ void session::do_read() {
                                      ? max_length
                                      : ret.second.size()),
               [](sys::error_code, std::size_t) {});
-          // do_read();
+          do_read();
         }
       });
 }

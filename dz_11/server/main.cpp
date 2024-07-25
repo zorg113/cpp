@@ -1,6 +1,7 @@
 
-
+#include <algorithm>
 #include <iostream>
+#include <thread>
 
 // #include "async.h"
 // #include "lib.h"
@@ -15,7 +16,15 @@ namespace net = boost::asio;
 namespace sys = boost::system;
 using namespace std::literals;
 
-template <typename Fn> void Worker(std::size_t num_threads, const Fn &fn) {}
+template <typename Fn> void RunWorkers(unsigned int n, const Fn &fn) {
+  auto m = std::max(1u, n);
+  std::vector<std::jthread> workers;
+  workers.reserve(m - 1);
+  while (--m) {
+    workers.emplace_back(fn);
+  }
+  fn();
+}
 
 int main(int argc, char *argv[]) {
   std::cout << "Version: " << version() << std::endl;
@@ -46,7 +55,8 @@ int main(int argc, char *argv[]) {
       }
     });
     aserver::server serv(ioc, vm["port"].as<std::size_t>(), storage);
-    ioc.run();
+
+    RunWorkers(num_threads, [&ioc] { ioc.run(); });
 
   } catch (po::error &er) {
     std::cerr << er.what() << "\n";
