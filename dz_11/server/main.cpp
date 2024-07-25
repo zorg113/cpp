@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <boost/asio/strand.hpp>
 #include <iostream>
 #include <thread>
 
@@ -45,6 +46,7 @@ int main(int argc, char *argv[]) {
               vm);
     po::notify(vm);
     net::io_context ioc(num_threads);
+    auto strand = net::make_strand(ioc);
     /// subscribe signals shutdown
     net::signal_set signals(ioc, SIGINT, SIGTERM);
     signals.async_wait([&ioc](const sys::error_code &ec,
@@ -54,7 +56,7 @@ int main(int argc, char *argv[]) {
         ioc.stop();
       }
     });
-    aserver::server serv(ioc, vm["port"].as<std::size_t>(), storage);
+    aserver::server serv(ioc, vm["port"].as<std::size_t>(), strand, storage);
 
     RunWorkers(num_threads, [&ioc] { ioc.run(); });
 

@@ -110,11 +110,11 @@ if (MSVC)
     endif()
 else ()
    target_compile_options( libdatabase  PRIVATE
-        -Wall -Wextra -pedantic -Werror 
+        -Wall -Wextra -g3 -pedantic -Werror 
     )
     #-fPIC -pie -g  -fsanitize=thread 
     target_compile_options(join_server PRIVATE
-         -Wall -Wextra -pedantic -Werror
+         -Wall -Wextra -g3 -pedantic -Werror
     )
     if(WITH_CATCH2_TEST)
         target_compile_options(test_database PRIVATE
