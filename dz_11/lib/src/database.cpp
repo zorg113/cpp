@@ -42,7 +42,7 @@ opt database::truncate(std::string &name_table) {
     m_storage[name_table].clear();
     return ret;
   }
-  return {"table "s + name_table + "not found"};
+  return {"ERR message: table "s + name_table + "not found"};
 }
 /**
  * @brief
@@ -52,11 +52,13 @@ opt database::truncate(std::string &name_table) {
 ret database::intersection(void) {
   std::ostringstream ss;
   if (m_storage.size() == 2) {
-    auto it1 = m_storage["A"];
-    auto it2 = m_storage["B"];
-    for (const auto &[k, v1] : it1) {
-      if (auto val = it2.find(k); val != it2.end()) {
-        ss << k << "," << v1 << "," << val->second << std::endl;
+    if (!m_storage["A"].empty() && !m_storage["B"].empty()) {
+      auto it1 = m_storage["A"];
+      auto it2 = m_storage["B"];
+      for (const auto &[k, v1] : it1) {
+        if (auto val = it2.find(k); val != it2.end()) {
+          ss << k << "," << v1 << "," << val->second << std::endl;
+        }
       }
     }
     return {true, ss.str()};
@@ -115,9 +117,18 @@ ret database::exec_command(tokens tkns) {
   }
   if (tok == "INTERSECTION") {
     status = intersection();
+    if (status.first) {
+      status.second += "OK\n";
+    } else
+      status.second += "ERR message\n";
   }
   if (tok == "SYMMETRIC_DIFFERENCE") {
     status = symmetric_difference();
+    if (status.first) {
+      status.second += "OK\n";
+    } else {
+      status.second += "ERR message\n";
+    }
   }
   return status;
 }

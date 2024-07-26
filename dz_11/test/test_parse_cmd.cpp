@@ -63,7 +63,7 @@ TEST_CASE("Test_INTERSECTION") {
   //-----------------------------------------------------------
   ret = storage.exec_command(pa.parse("INTERSECTION"s));
   REQUIRE(ret.first == true);
-  REQUIRE(ret.second == "2,dog,cat\n3,rat,dog\n");
+  REQUIRE(ret.second == "2,dog,cat\n3,rat,dog\nOK\n");
 }
 
 TEST_CASE("Test_SYMMETRIC_DIFFERENCE") {
@@ -81,5 +81,5 @@ TEST_CASE("Test_SYMMETRIC_DIFFERENCE") {
   //-----------------------------------------------------------
   ret = storage.exec_command(pa.parse("SYMMETRIC_DIFFERENCE"s));
   REQUIRE(ret.first == true);
-  REQUIRE(ret.second == "0,apple,\n1,cat,\n4,,rat\n5,,bat\n");
+  REQUIRE(ret.second == "0,apple,\n1,cat,\n4,,rat\n5,,bat\nOK\n");
 }

@@ -22,13 +22,19 @@ public:
   void start() { do_read(); }
 
 private:
+  ///  чтение и обработка сообщений
   void do_read();
+  /// максимальная длинна буфера
   static constexpr std::size_t max_length = 1024;
+  /// входной буфер
   char m_data[max_length];
-  char m_out[max_length];
+  /// сокет
   net::ip::tcp::socket m_socket;
+  /// очередь запросов к БД
   strand_io &m_strand;
+  /// парсер сообщения
   db::parser m_pa;
+  /// база данных
   db::database &m_store;
 };
 } // namespace aserver

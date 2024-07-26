@@ -8,8 +8,10 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/../dz_10/build/test_parse_cmd",
-            "args": [],
+            "program": "${fileDirname}/../dz_11/build/join_server",
+            "args": [
+                "1990"
+            ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

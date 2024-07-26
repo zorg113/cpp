@@ -26,9 +26,13 @@ public:
   ~server() {}
 
 private:
+  /// прием соединений
   void do_accept();
+  /// tcp acceptor
   net::ip::tcp::acceptor m_acceptor;
+  /// для формрования очереди задач
   strand_io &m_strand;
+  /// интерфейс базы данных одн для всех
   db::database &m_store;
 };
 

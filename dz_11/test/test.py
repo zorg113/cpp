@@ -23,7 +23,7 @@ def Main():
     thread1 = threading.Thread(target=connect_ad_send,  
                            args=("thread1", ['INSERT A 0 dog\n', 'INSERT A 1 rat\n', 'INSERT A 2 parrot\n', 'INSERT A 3 perl\n', 'INSERT A 4 zig\n'])) 
     thread2 = threading.Thread(target=connect_ad_send,  
-                           args=("thread2", ['INSERT B 1 car', 'INSERT B 3 mouse', 'INSERT B 4 flame', 'INSERT B 5 graph', 'INSERT B 6 zig'])) 
+                           args=("thread2", ['INSERT B 1 car', 'INSERT B 3 mouse', 'INSERT B 4 flame', 'INSERT B 5 graph', 'INSERT B 6 zig','INTERSECTION','SYMMETRIC_DIFFERENCE','TRUNCATE A','INTERSECTION'])) 
     thread1.start()
     thread2.start()
 

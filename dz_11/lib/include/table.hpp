@@ -11,7 +11,7 @@ public:
 
   std::optional<std::string_view> add_row(std::size_t key, std::string &value) {
     if (m_table.find(key) != m_table.end()) {
-      return {"key already exist"};
+      return {"ERR message: key already exist"};
     }
     m_table[key] = value;
     return {};
@@ -22,6 +22,7 @@ public:
   auto find(std::size_t k) { return m_table.find(k); }
   auto end() { return m_table.end(); }
   auto begin() { return m_table.begin(); }
+  auto empty() { return m_table.empty(); }
 
 private:
   std::size_t m_key = 0;
