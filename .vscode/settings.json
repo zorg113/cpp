@@ -83,6 +83,7 @@
         "*.ipp": "cpp",
         "csignal": "cpp",
         "any": "cpp",
-        "coroutine": "cpp"
+        "coroutine": "cpp",
+        "syncstream": "cpp"
     }
 }
