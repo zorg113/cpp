@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/../dz_11/build/join_server",
+            "program": "${fileDirname}/../build/test_fashion",
             "args": [
                 "1990"
             ],
