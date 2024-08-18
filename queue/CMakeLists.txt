@@ -5,7 +5,7 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(queue VERSION ${PROJECT_VESRION})
 #####################################################################
-find_package(Boost  COMPONENTS serialization program_options REQUIRED)
+find_package(Boost  COMPONENTS serialization program_options thread REQUIRED)
 add_library(boost::serialization INTERFACE IMPORTED)
 set_target_properties(boost::serialization PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}"
@@ -13,6 +13,8 @@ set_target_properties(boost::serialization PROPERTIES
 )
 #####################################################################
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
+
+option(WITH_GOOOGLE_BENCHMARK "Whether to build google benchmark" ON)
 
 configure_file(version.h.in version.h)
 
@@ -74,6 +76,41 @@ if(WITH_BOOST_TEST)
         ${Boost_LIBRARIES}
         queue_lib    
         boost::serialization
+    )
+endif()
+
+if(WITH_GOOOGLE_BENCHMARK)
+    find_package(benchmark REQUIRED)
+    add_executable(benchmark_queue benchmark/bench_queue.cpp)
+
+    set_target_properties(benchmark_queue PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    set_target_properties(benchmark_queue PROPERTIES
+        COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+        INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+    )
+    target_include_directories(benchmark_queue
+    PRIVATE
+    "${CMAKE_BINARY_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/base" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/net"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/serialize"
+    )
+    add_library(boost::thread INTERFACE IMPORTED)
+    set_target_properties(boost::thread PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}"
+        INTERFACE_LINK_LIBRARIES "${Boost_THREAD_LIBRARIES}"
+    )
+
+    target_link_libraries(benchmark_queue
+        ${Boost_LIBRARIES}
+        queue_lib    
+        boost::serialization
+        boost::thread
+        benchmark::benchmark
     )
 endif()
 

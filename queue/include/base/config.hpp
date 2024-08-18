@@ -14,8 +14,8 @@ struct config {
   int buf_size = DEF_BUFSIZE;
   int n_tasks = DEF_NTASKS;
   int n_threads = DEF_MAX_THREADS;
-  std::chrono::milliseconds p_time;
-  std::chrono::milliseconds c_time;
+  std::chrono::milliseconds p_time = std::chrono::milliseconds(0);
+  std::chrono::milliseconds c_time = std::chrono::milliseconds(0);
 };
 
 struct queue_conf {

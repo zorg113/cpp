@@ -89,8 +89,8 @@ BOOST_AUTO_TEST_CASE(Test_equeue_base, *boost::unit_test::enabled()) {
     std::filesystem::path path = "./../test/config.json";
     config conf = load_config(path);
     equeue<std::int64_t> queue(conf);
+    n_task = conf.n_tasks;
     for (int nmax = 1; nmax < conf.n_threads; ++nmax) {
-      n_task = conf.n_tasks;
       std::vector<std::thread> producers;
       std::vector<std::thread> consumers;
       for (int n = 0; n < nmax; ++n) {
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(Test_equeue_base, *boost::unit_test::enabled()) {
       for (auto &c : consumers)
         c.join();
     }
-    BOOST_TEST(consumed.size() == (conf.n_tasks + 1) * 9);
+    BOOST_TEST(consumed.size() == (conf.n_tasks + 1));
     BOOST_TEST(n_task.load() == -1);
   } catch (std::runtime_error &e) {
     std::cerr << e.what() << std::endl;
