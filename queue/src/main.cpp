@@ -2,6 +2,7 @@
 #include "server.hpp"
 #include "version.h"
 #include <iostream>
+#include <thread>
 
 namespace po = boost::program_options;
 namespace net = boost::asio;
@@ -9,6 +10,20 @@ namespace sys = boost::system;
 using namespace std::literals;
 
 int version() { return PROJECT_VERSION_PATCH; }
+
+/// @brief пул потоков для обслуживания клиентов
+/// @tparam Fn  функция вызова
+/// @param n  количество потоков
+/// @param fn функция вызова
+template <typename Fn> void RunWorkers(unsigned int n, const Fn &fn) {
+  auto m = std::max(1u, n);
+  std::vector<std::jthread> workers;
+  workers.reserve(m - 1);
+  while (--m) {
+    workers.emplace_back(fn);
+  }
+  fn();
+}
 
 int main(int argc, char *argv[]) {
   std::cout << "Version: " << version() << std::endl;
@@ -41,10 +56,12 @@ int main(int argc, char *argv[]) {
       }
     });
     ex_queue::equeue<std::string> q;
-    aserver::server producer(ioc, vm["pport"].as<std::size_t>(), std::ref(q), true);
-    aserver::server consumer(ioc, vm["cport"].as<std::size_t>(), std::ref(q),false);
+    aserver::server producer(ioc, vm["pport"].as<std::size_t>(), std::ref(q),
+                             true);
+    aserver::server consumer(ioc, vm["cport"].as<std::size_t>(), std::ref(q),
+                             false);
     std::cout << "server_run" << std::endl;
-    ioc.run();
+    RunWorkers(num_threads, [&ioc] { ioc.run(); });
 
   } catch (po::error &er) {
     std::cerr << er.what() << "\n";
