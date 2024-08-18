@@ -15,6 +15,14 @@ void session::do_read() {
             while (!m_queue.push(in)) {
               std::this_thread::yield();
             }
+            std::string s = "pass";
+            constexpr std::size_t max_length_ = 1024;
+            char m_out1[max_length_];
+            std::strncpy(m_out1, s.c_str(), max_length_);
+            m_socket.async_write_some(net::buffer(m_out1, s.size() > max_length_
+                                                              ? max_length_
+                                                              : s.size()),
+                                      [](sys::error_code, std::size_t) {});
           } else {
             std::string s;
             if (!m_queue.is_empty()) {
