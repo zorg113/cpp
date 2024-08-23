@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>join_server: Исходный файл lib/include/database.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">join_server
+   &#160;<span id="projectnumber">0.0.70</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="dir_5a30104352ef4255dc24354b02eb2d20.html">include</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">database.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="database_8hpp.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="table_8hpp.html">table.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">int</span> <a class="code" href="database_8hpp.html#ae64f17a84dc9c7144d1036498ff26fd9">version</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespacedb.html">   10</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedb.html">db</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespacedb.html#aafcb042673fd398c5e84ed4127c17e57">   11</a></span>&#160;<span class="keyword">using</span> <a class="code" href="namespacedb.html#aafcb042673fd398c5e84ed4127c17e57">tokens</a> = std::vector&lt;std::string&gt;;</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespacedb.html#a4d9e0416e8796381c24cadb40a68c747">   12</a></span>&#160;<span class="keyword">using</span> <a class="code" href="namespacedb.html#a4d9e0416e8796381c24cadb40a68c747">storage</a> = std::unordered_map&lt;std::string, table&gt;;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="namespacedb.html#a797567b503dba0e6f0185290805fb0a4">   13</a></span>&#160;<span class="keyword">using</span> <a class="code" href="namespacedb.html#a797567b503dba0e6f0185290805fb0a4">opt</a> = std::optional&lt;std::string_view&gt;;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespacedb.html#ae544c09ddadb823a82ceab5e7394e4f0">   14</a></span>&#160;<span class="keyword">using</span> <a class="code" href="namespacedb.html#ae544c09ddadb823a82ceab5e7394e4f0">ret</a> = std::pair&lt;bool, std::string&gt;;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classdb_1_1database.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classdb_1_1database.html">database</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <a class="code" href="namespacedb.html#a797567b503dba0e6f0185290805fb0a4">opt</a> <a class="code" href="classdb_1_1database.html#aa9f8d252c8f8ff281dc47029c8659a55">insert</a>(std::string &amp;name_table, std::size_t <span class="keywordtype">id</span>, std::string &amp;name);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <a class="code" href="namespacedb.html#a797567b503dba0e6f0185290805fb0a4">opt</a> <a class="code" href="classdb_1_1database.html#a71dc74210a2846d594469f26c346379e">truncate</a>(std::string &amp;name_table);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <a class="code" href="namespacedb.html#ae544c09ddadb823a82ceab5e7394e4f0">ret</a> <a class="code" href="classdb_1_1database.html#ac3796e29973e035b24140c8683c42310">intersection</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <a class="code" href="namespacedb.html#ae544c09ddadb823a82ceab5e7394e4f0">ret</a> <a class="code" href="classdb_1_1database.html#a7ad257130cd36608d94fba0706b5d781">symmetric_difference</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <a class="code" href="namespacedb.html#ae544c09ddadb823a82ceab5e7394e4f0">ret</a> <a class="code" href="classdb_1_1database.html#a998fda5b4a8d3d525feb1e6f872b4c65">exec_command</a>(<a class="code" href="namespacedb.html#aafcb042673fd398c5e84ed4127c17e57">tokens</a> tkns);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="namespacedb.html#a4d9e0416e8796381c24cadb40a68c747">storage</a> m_storage;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <span class="comment">// namespace db</span></div>
+<div class="ttc" id="aclassdb_1_1database_html"><div class="ttname"><a href="classdb_1_1database.html">db::database</a></div><div class="ttdef"><b>Definition:</b> database.hpp:16</div></div>
+<div class="ttc" id="aclassdb_1_1database_html_a71dc74210a2846d594469f26c346379e"><div class="ttname"><a href="classdb_1_1database.html#a71dc74210a2846d594469f26c346379e">db::database::truncate</a></div><div class="ttdeci">opt truncate(std::string &amp;name_table)</div><div class="ttdef"><b>Definition:</b> database.cpp:39</div></div>
+<div class="ttc" id="aclassdb_1_1database_html_a7ad257130cd36608d94fba0706b5d781"><div class="ttname"><a href="classdb_1_1database.html#a7ad257130cd36608d94fba0706b5d781">db::database::symmetric_difference</a></div><div class="ttdeci">ret symmetric_difference(void)</div><div class="ttdef"><b>Definition:</b> database.cpp:74</div></div>
+<div class="ttc" id="aclassdb_1_1database_html_a998fda5b4a8d3d525feb1e6f872b4c65"><div class="ttname"><a href="classdb_1_1database.html#a998fda5b4a8d3d525feb1e6f872b4c65">db::database::exec_command</a></div><div class="ttdeci">ret exec_command(tokens tkns)</div><div class="ttdef"><b>Definition:</b> database.cpp:101</div></div>
+<div class="ttc" id="aclassdb_1_1database_html_aa9f8d252c8f8ff281dc47029c8659a55"><div class="ttname"><a href="classdb_1_1database.html#aa9f8d252c8f8ff281dc47029c8659a55">db::database::insert</a></div><div class="ttdeci">opt insert(std::string &amp;name_table, std::size_t id, std::string &amp;name)</div><div class="ttdef"><b>Definition:</b> database.cpp:24</div></div>
+<div class="ttc" id="aclassdb_1_1database_html_ac3796e29973e035b24140c8683c42310"><div class="ttname"><a href="classdb_1_1database.html#ac3796e29973e035b24140c8683c42310">db::database::intersection</a></div><div class="ttdeci">ret intersection(void)</div><div class="ttdef"><b>Definition:</b> database.cpp:52</div></div>
+<div class="ttc" id="adatabase_8hpp_html_ae64f17a84dc9c7144d1036498ff26fd9"><div class="ttname"><a href="database_8hpp.html#ae64f17a84dc9c7144d1036498ff26fd9">version</a></div><div class="ttdeci">int version()</div><div class="ttdoc">вывод версии</div><div class="ttdef"><b>Definition:</b> database.cpp:11</div></div>
+<div class="ttc" id="anamespacedb_html"><div class="ttname"><a href="namespacedb.html">db</a></div><div class="ttdef"><b>Definition:</b> database.hpp:10</div></div>
+<div class="ttc" id="anamespacedb_html_a4d9e0416e8796381c24cadb40a68c747"><div class="ttname"><a href="namespacedb.html#a4d9e0416e8796381c24cadb40a68c747">db::storage</a></div><div class="ttdeci">std::unordered_map&lt; std::string, table &gt; storage</div><div class="ttdef"><b>Definition:</b> database.hpp:12</div></div>
+<div class="ttc" id="anamespacedb_html_a797567b503dba0e6f0185290805fb0a4"><div class="ttname"><a href="namespacedb.html#a797567b503dba0e6f0185290805fb0a4">db::opt</a></div><div class="ttdeci">std::optional&lt; std::string_view &gt; opt</div><div class="ttdef"><b>Definition:</b> database.hpp:13</div></div>
+<div class="ttc" id="anamespacedb_html_aafcb042673fd398c5e84ed4127c17e57"><div class="ttname"><a href="namespacedb.html#aafcb042673fd398c5e84ed4127c17e57">db::tokens</a></div><div class="ttdeci">std::vector&lt; std::string &gt; tokens</div><div class="ttdef"><b>Definition:</b> database.hpp:11</div></div>
+<div class="ttc" id="anamespacedb_html_ae544c09ddadb823a82ceab5e7394e4f0"><div class="ttname"><a href="namespacedb.html#ae544c09ddadb823a82ceab5e7394e4f0">db::ret</a></div><div class="ttdeci">std::pair&lt; bool, std::string &gt; ret</div><div class="ttdef"><b>Definition:</b> database.hpp:14</div></div>
+<div class="ttc" id="atable_8hpp_html"><div class="ttname"><a href="table_8hpp.html">table.hpp</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>join_server: Файл test/test_parse_cmd.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">join_server
+   &#160;<span id="projectnumber">0.0.70</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_13e138d54eb8818da29c3992edef070a.html">test</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Классы</a> &#124;
+<a href="#func-members">Функции</a>  </div>
+  <div class="headertitle">
+<div class="title">Файл test_parse_cmd.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;catch2/catch_test_macros.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="database_8hpp_source.html">database.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="parser_8hpp_source.html">parser.hpp</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Граф включаемых заголовочных файлов для test_parse_cmd.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="test__parse__cmd_8cpp__incl.png" border="0" usemap="#atest_2test__parse__cmd_8cpp" alt=""/></div>
+<map name="atest_2test__parse__cmd_8cpp" id="atest_2test__parse__cmd_8cpp">
+<area shape="rect" title=" " alt="" coords="380,5,561,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,224,107"/>
+<area shape="rect" href="database_8hpp.html" title=" " alt="" coords="249,80,359,107"/>
+<area shape="rect" title=" " alt="" coords="432,229,491,256"/>
+<area shape="rect" href="parser_8hpp.html" title=" " alt="" coords="384,80,475,107"/>
+<area shape="rect" title=" " alt="" coords="549,80,629,107"/>
+<area shape="rect" title=" " alt="" coords="653,80,728,107"/>
+<area shape="rect" title=" " alt="" coords="213,155,337,181"/>
+<area shape="rect" title=" " alt="" coords="361,155,423,181"/>
+<area shape="rect" href="table_8hpp.html" title=" " alt="" coords="105,155,188,181"/>
+<area shape="rect" title=" " alt="" coords="165,229,216,256"/>
+<area shape="rect" title=" " alt="" coords="67,229,141,256"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Классы</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCaptureCout.html">CaptureCout</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a90a281155e271a9497a1f137f13c9e16"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test__parse__cmd_8cpp.html#a90a281155e271a9497a1f137f13c9e16">TEST_CASE</a> (&quot;Test_INSERT&quot;)</td></tr>
+<tr class="separator:a90a281155e271a9497a1f137f13c9e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a495eec621559ee1f1c0520fb6e60bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test__parse__cmd_8cpp.html#a6a495eec621559ee1f1c0520fb6e60bb">TEST_CASE</a> (&quot;Test_TRUNCATE&quot;)</td></tr>
+<tr class="separator:a6a495eec621559ee1f1c0520fb6e60bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a494e42077eae4f6c0d592b0537867442"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test__parse__cmd_8cpp.html#a494e42077eae4f6c0d592b0537867442">TEST_CASE</a> (&quot;Test_INTERSECTION&quot;)</td></tr>
+<tr class="separator:a494e42077eae4f6c0d592b0537867442"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97ccb0f06362a8364bad688f9b13b240"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test__parse__cmd_8cpp.html#a97ccb0f06362a8364bad688f9b13b240">TEST_CASE</a> (&quot;Test_SYMMETRIC_DIFFERENCE&quot;)</td></tr>
+<tr class="separator:a97ccb0f06362a8364bad688f9b13b240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Функции</h2>
+<a id="a90a281155e271a9497a1f137f13c9e16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90a281155e271a9497a1f137f13c9e16">&#9670;&nbsp;</a></span>TEST_CASE() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_CASE </td>
+          <td>(</td>
+          <td class="paramtype">&quot;Test_INSERT&quot;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a494e42077eae4f6c0d592b0537867442"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a494e42077eae4f6c0d592b0537867442">&#9670;&nbsp;</a></span>TEST_CASE() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_CASE </td>
+          <td>(</td>
+          <td class="paramtype">&quot;Test_INTERSECTION&quot;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a97ccb0f06362a8364bad688f9b13b240"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97ccb0f06362a8364bad688f9b13b240">&#9670;&nbsp;</a></span>TEST_CASE() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_CASE </td>
+          <td>(</td>
+          <td class="paramtype">&quot;Test_SYMMETRIC_DIFFERENCE&quot;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6a495eec621559ee1f1c0520fb6e60bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a495eec621559ee1f1c0520fb6e60bb">&#9670;&nbsp;</a></span>TEST_CASE() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_CASE </td>
+          <td>(</td>
+          <td class="paramtype">&quot;Test_TRUNCATE&quot;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>
