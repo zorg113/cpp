@@ -36,9 +36,15 @@ template <typename T> struct cell_t {
 template <typename T> class equeue {
   friend class boost::serialization::access;
   queue_conf m_cfg;
+#ifndef DISABLE_ALING  
   alignas(64) std::vector<cell_t<T>> m_buffer;
   alignas(64) std::uint32_t m_buffer_mask;
   alignas(64) std::atomic<std::uint32_t> m_enqueue_pos, m_dequeue_pos;
+#else
+  std::vector<cell_t<T>> m_buffer;
+  std::uint32_t m_buffer_mask;
+  std::atomic<std::uint32_t> m_enqueue_pos, m_dequeue_pos;
+#endif
   template <class Archive> void serialize(Archive &ar, const unsigned int) {
     ar & m_cfg;
     ar & m_buffer;
@@ -59,10 +65,19 @@ public:
     if ((m_cfg.buf_size & (m_cfg.buf_size - 1)) != 0)
       throw std::runtime_error("buffer size is not power 2");
     for (int i = 0; i != m_cfg.buf_size; ++i) {
+#ifndef DISABLE_MEMORY_OPT	    
       m_buffer[i].sequence.store(i, std::memory_order_relaxed);
+#else
+      m_buffer[i].sequence.store(i);
+#endif
     }
+#ifndef DISABLE_MEMORY_OPT    
     m_enqueue_pos.store(0, std::memory_order_relaxed);
     m_dequeue_pos.store(0, std::memory_order_relaxed);
+#else
+    m_enqueue_pos.store(0);
+    m_dequeue_pos.store(0);
+#endif
   }
   /// @brief  конструктор по умолчанию
   equeue() {
@@ -75,10 +90,19 @@ public:
     if ((m_cfg.buf_size & (m_cfg.buf_size - 1)) != 0)
       throw std::runtime_error("buffer size is not power 2");
     for (int i = 0; i != m_cfg.buf_size; ++i) {
+#ifndef DISABLE_MEMORY_OPT	    
       m_buffer[i].sequence.store(i, std::memory_order_relaxed);
+#else
+      m_buffer[i].sequence.store(i, std::memory_order_relaxed);
+#endif       
     }
+#ifndef DISABLE_MEMORY_OPT     
     m_enqueue_pos.store(0, std::memory_order_relaxed);
     m_dequeue_pos.store(0, std::memory_order_relaxed);
+#else
+    m_enqueue_pos.store(0);
+    m_dequeue_pos.store(0);
+#endif    
   }
 
   /// @brief  добавление в lock-free очередь данных
@@ -89,18 +113,34 @@ public:
     std::uint32_t pos = 0;
     bool res = false;
     while (!res) {
+#ifndef DISABLE_MEMORY_OPT         
       pos = m_enqueue_pos.load(std::memory_order_relaxed);
+#else
+      pos = m_enqueue_pos.load();
+#endif      
       cell = &m_buffer[pos & m_buffer_mask];
+#ifndef DISABLE_MEMORY_OPT          
       auto seq = cell->sequence.load(std::memory_order_acquire);
+#else
+      auto seq = cell->sequence.load();
+#endif      
       auto diff = static_cast<int>(seq) - static_cast<int>(pos);
       if (diff < 0)
         return false;
       if (diff == 0)
+#ifndef DISABLE_MEMORY_OPT           
         res = m_enqueue_pos.compare_exchange_weak(pos, pos + 1,
                                                   std::memory_order_relaxed);
+#else
+        res = m_enqueue_pos.compare_exchange_weak(pos, pos + 1);
+#endif      
     }
     cell->data = std::move(data);
+#ifndef DISABLE_MEMORY_OPT        
     cell->sequence.store(pos + 1, std::memory_order_release);
+#else
+    cell->sequence.store(pos + 1);
+#endif    
     return true;
   }
 
@@ -112,18 +152,34 @@ public:
     std::uint32_t pos = 0;
     bool res = false;
     while (!res) {
+#ifndef DISABLE_MEMORY_OPT         
       pos = m_dequeue_pos.load(std::memory_order_relaxed);
+#else
+      pos = m_dequeue_pos.load();
+#endif
       cell = &m_buffer[pos & m_buffer_mask];
+#ifndef DISABLE_MEMORY_OPT          
       auto seq = cell->sequence.load(std::memory_order_acquire);
+#else
+      auto seq = cell->sequence.load();
+#endif      
       auto diff = static_cast<int>(seq) - static_cast<int>(pos + 1);
       if (diff < 0)
         return false;
       if (diff == 0)
+#ifndef DISABLE_MEMORY_OPT           
         res = m_dequeue_pos.compare_exchange_weak(pos, pos + 1,
                                                   std::memory_order_relaxed);
+#else
+        res = m_dequeue_pos.compare_exchange_weak(pos, pos + 1);
+#endif      
     }
     data = std::move(cell->data);
+#ifndef DISABLE_MEMORY_OPT        
     cell->sequence.store(pos + m_buffer_mask + 1, std::memory_order_release);
+#else
+    cell->sequence.store(pos + m_buffer_mask + 1);
+#endif    
     return true;
   }
 

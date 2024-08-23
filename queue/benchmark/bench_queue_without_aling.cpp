@@ -1,3 +1,4 @@
+#define DISABLE_ALING 1
 #include "queue.hpp"
 #include <benchmark/benchmark.h>
 
@@ -62,7 +63,7 @@ static void Run_produceN_consumeN(benchmark::State &state) {
     try {
       config conf;
       conf.n_tasks = state.range(0);
-      conf.n_threads = 5;
+      conf.n_threads = 2;
       equeue<std::int64_t> queue(conf);
       n_task = conf.n_tasks;
       for (int nmax = 1; nmax < conf.n_threads; ++nmax) {
@@ -118,8 +119,8 @@ void consumer(boost::lockfree::queue<std::int64_t> &queue,
       ++consumer_count;
   }
 
-  //  while (queue.pop(value))
-  //    ++consumer_count;
+  while (queue.pop(value))
+    ++consumer_count;
 }
 
 static void Run_Boost_produceN_consumeN(benchmark::State &state) {
@@ -130,9 +131,9 @@ static void Run_Boost_produceN_consumeN(benchmark::State &state) {
     boost::atomic_int producer_count(0);
     boost::atomic_int consumer_count(0);
 
-    const int producer_thread_count = 5;
-    const int consumer_thread_count = 5;
-    const int iterations = state.range(0) / 5;
+    const int producer_thread_count = 2;
+    const int consumer_thread_count = 2;
+    const int iterations = state.range(0);
     for (int i = 0; i != producer_thread_count; ++i)
       producer_threads.create_thread(boost::bind(producer, boost::ref(queue),
                                                  boost::ref(producer_count),

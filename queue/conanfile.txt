@@ -1,0 +1,6 @@
+[requires]
+boost/1.84.0
+benchmark/1.8.4
+[generators]
+CMakeDeps
+CMakeToolchain

@@ -6,11 +6,11 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 project(queue VERSION ${PROJECT_VESRION})
 #####################################################################
 find_package(Boost  COMPONENTS serialization program_options thread REQUIRED)
-add_library(boost::serialization INTERFACE IMPORTED)
-set_target_properties(boost::serialization PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}"
-    INTERFACE_LINK_LIBRARIES "${Boost_SERIALIZATION_LIBRARIES}"
-)
+# add_library(boost::serialization INTERFACE IMPORTED)
+# set_target_properties(boost::serialization PROPERTIES
+#     INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}"
+#     INTERFACE_LINK_LIBRARIES "${Boost_SERIALIZATION_LIBRARIES}"
+# )
 #####################################################################
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
@@ -47,8 +47,9 @@ include_directories(
 
 
 target_link_libraries(net_queue_cli PRIVATE
-   queue_lib_net 
+    queue_lib_net 
     ${Boost_LIBRARIES}
+    Boost::serialization
 )
 
 if(WITH_BOOST_TEST)
@@ -75,23 +76,46 @@ if(WITH_BOOST_TEST)
     target_link_libraries(test_queue
         ${Boost_LIBRARIES}
         queue_lib    
-        boost::serialization
+        Boost::serialization
     )
 endif()
 
 if(WITH_GOOOGLE_BENCHMARK)
     find_package(benchmark REQUIRED)
     add_executable(benchmark_queue benchmark/bench_queue.cpp)
+    add_executable(benchmark_mutex_queue benchmark/bench_queue_mutex.cpp)
+    add_executable(benchmark_queue_no_opt benchmark/bench_queue_no_opt.cpp)
+    add_executable(benchmark_queue_without_aling benchmark/bench_queue_without_aling.cpp)
+    add_executable(benchmark_queue_without_memory  benchmark/bench_queue_without_memory.cpp)
 
-    set_target_properties(benchmark_queue PROPERTIES
-        CXX_STANDARD 20
-        CXX_STANDARD_REQUIRED ON
-    )
+    set_target_properties(benchmark_queue PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON)
+    set_target_properties(benchmark_mutex_queue PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON)
+    set_target_properties(benchmark_queue_no_opt PROPERTIES  CXX_STANDARD 20    CXX_STANDARD_REQUIRED ON )
+    set_target_properties(benchmark_queue_without_aling PROPERTIES  CXX_STANDARD 20    CXX_STANDARD_REQUIRED ON )
+    set_target_properties(benchmark_queue_without_memory PROPERTIES  CXX_STANDARD 20    CXX_STANDARD_REQUIRED ON )
 
     set_target_properties(benchmark_queue PROPERTIES
         COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
         INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
     )
+
+    set_target_properties(benchmark_mutex_queue PROPERTIES
+        COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+        INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+    )
+     set_target_properties(benchmark_queue_no_opt PROPERTIES
+        COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+        INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+    )
+    set_target_properties(benchmark_queue_without_aling PROPERTIES
+        COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+        INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+    )
+    set_target_properties(benchmark_queue_without_memory PROPERTIES
+        COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+        INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+    )
+
     target_include_directories(benchmark_queue
     PRIVATE
     "${CMAKE_BINARY_DIR}"
@@ -99,7 +123,37 @@ if(WITH_GOOOGLE_BENCHMARK)
     "${CMAKE_CURRENT_SOURCE_DIR}/include/net"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/serialize"
     )
+    target_include_directories(benchmark_mutex_queue
+    PRIVATE
+    "${CMAKE_BINARY_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/base" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/net"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/serialize"
+    )
+
+    target_include_directories(benchmark_queue_no_opt	     
+    PRIVATE
+    "${CMAKE_BINARY_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/base" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/net"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/serialize"
+    )
+    target_include_directories(benchmark_queue_without_aling
+    PRIVATE
+    "${CMAKE_BINARY_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/base" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/net"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/serialize"
+    )
+    target_include_directories(benchmark_queue_without_memory
+    PRIVATE
+    "${CMAKE_BINARY_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/base" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/net"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/serialize"
+    )
     add_library(boost::thread INTERFACE IMPORTED)
+
     set_target_properties(boost::thread PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIRS}"
         INTERFACE_LINK_LIBRARIES "${Boost_THREAD_LIBRARIES}"
@@ -108,10 +162,36 @@ if(WITH_GOOOGLE_BENCHMARK)
     target_link_libraries(benchmark_queue
         ${Boost_LIBRARIES}
         queue_lib    
-        boost::serialization
-        boost::thread
+        Boost::serialization
+        Boost::thread
         benchmark::benchmark
     )
+     target_link_libraries(benchmark_mutex_queue                      
+        benchmark::benchmark
+    )
+    target_link_libraries(benchmark_queue_no_opt      
+        queue_lib    
+        Boost::serialization
+        Boost::thread
+        benchmark::benchmark
+    )
+    target_link_libraries(benchmark_queue_without_aling      
+        queue_lib    
+        Boost::serialization
+        Boost::thread
+        benchmark::benchmark
+    )
+    target_link_libraries(benchmark_queue_without_memory
+	    queue_lib    
+        Boost::serialization
+        Boost::thread
+        benchmark::benchmark
+    )
+    target_compile_options(benchmark_queue PRIVATE -Wall -Wextra -O2) 
+    target_compile_options(benchmark_mutex_queue PRIVATE -Wall -Wextra -O2) 
+    target_compile_options(benchmark_queue_no_opt PRIVATE -Wall -Wextra -O2) 
+    target_compile_options(benchmark_queue_without_aling PRIVATE -Wall -Wextra -O2) 
+    target_compile_options(benchmark_queue_without_memory PRIVATE -Wall -Wextra -O2) 
 endif()
 
 if (MSVC)
